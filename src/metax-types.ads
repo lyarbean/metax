@@ -1,11 +1,22 @@
 with Interfaces;
 with Interfaces.C;
-package MetaX.Types is
-   subtype u08 is interfaces.unsigned_8;
-   subtype u16 is interfaces.unsigned_16;
-   subtype u32 is interfaces.unsigned_32;
-   subtype u64 is interfaces.unsigned_64;
-   type byte_array is array (integer range <>) of aliased u08;
-   pragma Convention (C, byte_Array);
-   for byte_Array'Component_Size use Interfaces.C.char'Size;
-end MetaX.Types;
+with Ada.Text_IO;
+with Interfaces.C_Streams;
+with Ada.Streams.Stream_IO;
+with Ada.Streams.Stream_IO.C_Streams;
+package Metax.Types is
+   subtype U08 is Interfaces.Unsigned_8;
+   subtype U16 is Interfaces.Unsigned_16;
+   subtype U32 is Interfaces.Unsigned_32;
+   subtype U64 is Interfaces.Unsigned_64;
+   package Byte_Io is new Ada.Text_IO.Modular_IO (U08);
+   type Byte_Array is array (Integer range <>) of aliased U08;
+   pragma Convention (C, Byte_Array);
+   for Byte_Array'Component_Size use Interfaces.C.char'Size;
+   type Unsigned_Array is array (Integer range <>) of aliased U32;
+   pragma Convention (C, Unsigned_Array);
+   for Unsigned_Array'Component_Size use Interfaces.C.unsigned'Size;
+   package Ics renames Interfaces.C_Streams;
+   package Assio renames Ada.Streams.Stream_IO;
+   package Assiocs renames Ada.Streams.Stream_IO.C_Streams;
+end Metax.Types;

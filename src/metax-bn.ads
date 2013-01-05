@@ -1,26 +1,21 @@
-with MetaX.Types;
-use MetaX.Types;
+with Interfaces;
 with Interfaces.C;
-package MetaX.Bn is
-   pragma Elaborate_body;
-   type bignumber is tagged limited private;
-   function bytes_length(number : bignumber) return integer;
-   function to_binary(number : bignumber) return byte_array;
-   function from_binary(binary: byte_array) return bignumber;
-   procedure clear(number : bignumber);
-   procedure free(number : bignumber);
-   procedure clear_free(number : bignumber);
+with Metax.Types;
+with Metax.C2a;
+package Metax.Bn is
+   pragma Elaborate_Body;
    use Interfaces.C;
-   type bignum_st is record
-      d : access unsigned_long;
-      top : aliased int;
-      dmax : aliased int;
-      neg : aliased int;
-      flags : aliased int;
+   use Metax.Types;
+   use Metax.C2a;
+   type Bignumber is tagged limited private;
+   function Bytes_Length (Number : Bignumber) return Integer;
+   function To_Binary (Number : Bignumber) return Byte_Array;
+   function From_Binary (Binary : Byte_Array) return Bignumber;
+   procedure Clear (Number : Bignumber);
+   procedure Free (Number : Bignumber);
+   procedure Clear_Free (Number : Bignumber);
+private
+   type Bignumber is tagged limited record
+      Number : access Bignum_St;
    end record;
-   pragma Convention (C_Pass_By_Copy, bignum_st);
-   private
-   type bignumber is tagged limited record
-      number : access bignum_st;
-   end record;
-end MetaX.Bn;
+end Metax.Bn;

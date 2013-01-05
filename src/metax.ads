@@ -1,3 +1,3 @@
-package MetaX is
-   pragma pure;
-end MetaX;
+package Metax is
+   pragma Pure;
+end Metax;
