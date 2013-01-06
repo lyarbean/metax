@@ -13,10 +13,12 @@ package Metax.Types is
    type Byte_Array is array (Integer range <>) of aliased U08;
    pragma Convention (C, Byte_Array);
    for Byte_Array'Component_Size use Interfaces.C.char'Size;
+   subtype Md_Array is Byte_Array (1 .. 32);
    type Unsigned_Array is array (Integer range <>) of aliased U32;
    pragma Convention (C, Unsigned_Array);
    for Unsigned_Array'Component_Size use Interfaces.C.unsigned'Size;
    package Ics renames Interfaces.C_Streams;
    package Assio renames Ada.Streams.Stream_IO;
    package Assiocs renames Ada.Streams.Stream_IO.C_Streams;
+   Error : exception;
 end Metax.Types;

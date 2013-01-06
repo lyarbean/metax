@@ -1,5 +1,8 @@
-with System;
+with Interfaces.C;
+use Interfaces.C;
+
 package body Metax.Bn is
+use C2a;
    function Bytes_Length (Number : Bignumber) return Integer is
    begin
       return Integer (Bn_Num_Bits (Number.Number) + 7) / 8;
@@ -31,10 +34,4 @@ package body Metax.Bn is
    begin
       Bn_Clear_Free (Number.Number);
    end Clear_Free;
-   function Reference
-     (Number : Bignumber)
-      return   access  constant Bignum_St is
-   begin
-      return Number.Number;
-   end Reference;
 end Metax.Bn;

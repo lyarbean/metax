@@ -1,21 +1,12 @@
-with System;
-with Interfaces.C;
-with Interfaces.C.Strings;
-with Interfaces.C_Streams;
 with Metax.Types;
-
 with Metax.C2a;
 package Metax.Dh is
    pragma Elaborate_Body;
-   use Metax.Types;
-   use Interfaces.C;
-   use Metax.C2a;
+   use  Types;
    type Dh is tagged limited private;
-
    function Create return Dh;
    function From_Pem (Path : String) return Dh;
    procedure Free (This : in out Dh);
-
    procedure Set_Private_Key (This : in out Dh; Pem : String);
    procedure Generate_Parameters
      (This              : in out Dh;
@@ -36,7 +27,6 @@ package Metax.Dh is
 
 private
    type Dh is tagged limited record
-      Context : access Dh_St;
+      Context : access C2a.Dh_St;
    end record;
-   Error : exception;
 end Metax.Dh;

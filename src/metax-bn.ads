@@ -1,12 +1,8 @@
-with Interfaces;
-with Interfaces.C;
 with Metax.Types;
 with Metax.C2a;
 package Metax.Bn is
    pragma Elaborate_Body;
-   use Interfaces.C;
    use Metax.Types;
-   use Metax.C2a;
    type Bignumber is tagged limited private;
    function Bytes_Length (Number : Bignumber) return Integer;
    function To_Binary (Number : Bignumber) return Byte_Array;
@@ -16,6 +12,6 @@ package Metax.Bn is
    procedure Clear_Free (Number : Bignumber);
 private
    type Bignumber is tagged limited record
-      Number : access Bignum_St;
+      Number : access C2a.Bignum_St;
    end record;
 end Metax.Bn;

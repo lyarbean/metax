@@ -5,7 +5,7 @@
 package body Metax.Rc4 is
    procedure Setup (This : in out Rc; Key : in Byte_Array) is
    begin
-      Rc4_Set_Key (This.Key'Access, Key'Length, Key);
+      C2a.Rc4_Set_Key (This.Key'Access, Key'Length, Key);
    end Setup;
 
    procedure Crypt
@@ -14,6 +14,6 @@ package body Metax.Rc4 is
       To   : in out Byte_Array)
    is
    begin
-      Rc4 (This.Key'Access, From'Length, From, To);
+      C2a.Rc4 (This.Key'Access, From'Length, From, To);
    end Crypt;
 end Metax.Rc4;

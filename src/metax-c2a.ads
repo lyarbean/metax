@@ -8,6 +8,9 @@ package Metax.C2a is
    use Interfaces;
    use Interfaces.C;
    use Metax.Types;
+   -- ERR
+   function ERR_get_error return unsigned_long;
+   pragma Import (C, ERR_get_error, "ERR_get_error");
    --  BIGNUM
    type Bignum_St is record
       D     : access unsigned_long;
@@ -75,21 +78,12 @@ package Metax.C2a is
       The_Engine    : System.Address;
    end record;
    pragma Convention (C_Pass_By_Copy, Dh_St);
-   type Anon_26 (Discr : unsigned := 0) is record
-      case Discr is
-         when 0 =>
-            Ptr : Interfaces.C.Strings.chars_ptr;
-         when 1 =>
-            Rsa : System.Address;
-         when 2 =>
-            Dsa : System.Address;
-         when 3 =>
-            Dh : System.Address;
-         when others =>
-            Ec : System.Address;
-      end case;
+
+   type Anon_26 is record
+      Ptr : System.Address;
    end record;
    pragma Convention (C_Pass_By_Copy, Anon_26);
+
    type Evp_Pkey_St is record
       C_Type          : aliased int;
       Save_Type       : aliased int;
@@ -138,11 +132,11 @@ package Metax.C2a is
       Dh_Generate_Parameters_Ex,
       "DH_generate_parameters_ex");
 
-   function Dh_Compute_Key
-     (Key     : Byte_Array;
+   procedure Dh_Compute_Key
+     (Key     : in out Byte_array;
       Pub_Key : access constant Bignum_St;
-      The_Dh  : access Dh_St)
-      return    int;
+      The_Dh  : access Dh_St);
+
    pragma Import (C, Dh_Compute_Key, "DH_compute_key");
    function Pem_Read_Privatekey
      (Fp   : Interfaces.C_Streams.FILEs;
@@ -156,9 +150,11 @@ package Metax.C2a is
       U    : System.Address)
       return access Evp_Pkey_St;
    pragma Import (C, Pem_Read_Privatekey, "PEM_read_PrivateKey");
+
    --  AUX
    function Get_Dh (Pkey : access Evp_Pkey_St) return access Dh_St;
    pragma Import (C, Get_Dh, "get_DH");
+
    --  RSA
    type Rsa_St is record
       Pad            : aliased int;
@@ -183,11 +179,22 @@ package Metax.C2a is
       Blinding       : System.Address;
       Mt_Blinding    : System.Address;
    end record;
-   pragma Convention (C_Pass_By_Copy, Rsa_St);  --  /usr/include/openssl
-                                                --/rsa.h:129
+   pragma Convention (C_Pass_By_Copy, Rsa_St);
+
    function Rsa_New return access Rsa_St;
    pragma Import (C, Rsa_New, "RSA_new");
- --  RC4
+
+   function Rsa_Size (The_Dh : access constant Rsa_St) return int;
+   pragma Import (C, Rsa_Size, "RSA_size");
+
+   --  RC4
+   type Rc4_Key_St is record
+      X    : aliased unsigned;
+      Y    : aliased unsigned;
+      Data : aliased Unsigned_Array (0 .. 255);
+   end record;
+   pragma Convention (C_Pass_By_Copy, Rc4_Key_St);
+
    procedure Rc4_Set_Key
      (Key  : access Rc4_Key_St;
       Len  : int;
@@ -200,4 +207,31 @@ package Metax.C2a is
       Indata  : Byte_Array;
       Outdata : in out Byte_Array);
    pragma Import (C, Rc4, "RC4");
+
+   -- SHA256
+   type Sha256state_St is record
+      H      : aliased Unsigned_Array (0 .. 7);
+      Nl     : aliased unsigned;
+      Nh     : aliased unsigned;
+      Data   : aliased Unsigned_Array (0 .. 15);
+      Num    : aliased unsigned;
+      Md_Len : aliased unsigned;
+   end record;
+   pragma Convention (C_Pass_By_Copy, Sha256state_St);
+
+   function Sha256_Init (C : access Sha256state_St) return int;
+   pragma Import (C, Sha256_Init, "SHA256_Init");
+
+   function Sha256_Update
+     (C    : access Sha256state_St;
+      Data : in Byte_Array;
+      Len  : size_t)
+      return int;
+   pragma Import (C, Sha256_Update, "SHA256_Update");
+
+   procedure Sha256_Final
+     (Md : in out Md_Array;
+      C  : access constant Sha256state_St);
+   pragma Import (C, Sha256_Final, "SHA256_Final");
+
 end Metax.C2a;

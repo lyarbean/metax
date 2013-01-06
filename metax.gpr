@@ -12,7 +12,7 @@ package Builder is
         ("-s",
         "-C",
         "-O2",
-        "-vh",
+        "-vl",
         "-j3",
         "");
     for Executable ("metax-test.adb") use "metaxtest";
@@ -27,8 +27,7 @@ package Compiler is
         "-gnato",
         "-gnatwa",
         "-gnaty" &
-        "M96" &  -- check line length <= nn  characters
-        "");
+        "M96");
 end Compiler;
 
 package Binder is
