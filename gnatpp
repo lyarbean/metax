@@ -1,0 +1,1 @@
+gnatpp -W8 --eol=lf -rnb -aM -c3 -cl3 -kL -M72 -nM -pM --no-separate-loop-then --separate-label --separate-stmt-name
