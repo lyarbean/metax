@@ -99,6 +99,7 @@ package body Metax.Dh is
       N : access C2a.Bignum_St;
    begin
       N := C2a.Bn_Bin2bn (Y, Y'Length, null);
+      C2a.ERR_clear_error;
       C2a.Dh_Compute_Key (Z, N, This.Context);
       if C2a.ERR_get_error = -1 then
          raise Error;

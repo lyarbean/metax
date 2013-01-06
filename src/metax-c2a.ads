@@ -11,6 +11,9 @@ package Metax.C2a is
    -- ERR
    function ERR_get_error return unsigned_long;
    pragma Import (C, ERR_get_error, "ERR_get_error");
+   procedure ERR_clear_error;
+   pragma Import (C, ERR_clear_error, "ERR_clear_error");
+
    --  BIGNUM
    type Bignum_St is record
       D     : access unsigned_long;
