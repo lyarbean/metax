@@ -8,11 +8,11 @@ package Metax.C2a is
    use Interfaces;
    use Interfaces.C;
    use Metax.Types;
-   -- ERR
-   function ERR_get_error return unsigned_long;
-   pragma Import (C, ERR_get_error, "ERR_get_error");
-   procedure ERR_clear_error;
-   pragma Import (C, ERR_clear_error, "ERR_clear_error");
+   --  ERR
+   function Err_Get_Error return unsigned_long;
+   pragma Import (C, Err_Get_Error, "ERR_get_error");
+   procedure Err_Clear_Error;
+   pragma Import (C, Err_Clear_Error, "ERR_clear_error");
 
    --  BIGNUM
    type Bignum_St is record
@@ -136,7 +136,7 @@ package Metax.C2a is
       "DH_generate_parameters_ex");
 
    procedure Dh_Compute_Key
-     (Key     : in out Byte_array;
+     (Key     : in out Byte_Array;
       Pub_Key : access constant Bignum_St;
       The_Dh  : access Dh_St);
 
@@ -211,7 +211,7 @@ package Metax.C2a is
       Outdata : in out Byte_Array);
    pragma Import (C, Rc4, "RC4");
 
-   -- SHA256
+   --  SHA256
    type Sha256state_St is record
       H      : aliased Unsigned_Array (0 .. 7);
       Nl     : aliased unsigned;

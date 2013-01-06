@@ -2,7 +2,7 @@ with Metax.Types;
 with Metax.C2a;
 package Metax.Dh is
    pragma Elaborate_Body;
-   use  Types;
+   use Types;
    type Dh is tagged limited private;
    function Create return Dh;
    function From_Pem (Path : String) return Dh;

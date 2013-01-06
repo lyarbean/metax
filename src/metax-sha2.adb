@@ -1,5 +1,4 @@
-with Interfaces.C;
-use Interfaces.C;
+with Interfaces.C; use Interfaces.C;
 ------------------------------------------------------------
 --                       MetaX.SHA2                       --
 ------------------------------------------------------------

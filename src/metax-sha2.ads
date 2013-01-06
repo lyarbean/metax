@@ -4,7 +4,7 @@ with Metax.C2a;
 --                       MetaX.SHA2                       --
 ------------------------------------------------------------
 package Metax.Sha2 is
-   use types;
+   use Types;
    type Sha is tagged limited private;
    procedure Initialize (This : in out Sha);
    procedure Update (This : in out Sha; Data : in Byte_Array);

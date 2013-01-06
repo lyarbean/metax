@@ -1,6 +1,5 @@
 with System;
-with interfaces.C;
-use interfaces.C;
+with Interfaces.C; use Interfaces.C;
 -----------------------------------------------------------
 ---
 --                         MetaX.dh                       --
@@ -22,7 +21,7 @@ package body Metax.Dh is
       R : Ics.FILEs;
    begin
       Assio.Open (F, Assio.In_File, Path);
-      R := Assiocs.C_Stream(F);
+      R := Assiocs.C_Stream (F);
       return
         (Context => C2a.Pem_Read_Dhparams
                       (R,
@@ -49,7 +48,7 @@ package body Metax.Dh is
       Ref : access C2a.Dh_St;
    begin
       Assio.Open (F, Assio.In_File, Pem);
-      R := Assiocs.C_Stream(F);
+      R   := Assiocs.C_Stream (F);
       P   :=
          C2a.Pem_Read_Privatekey
            (R,
@@ -99,9 +98,9 @@ package body Metax.Dh is
       N : access C2a.Bignum_St;
    begin
       N := C2a.Bn_Bin2bn (Y, Y'Length, null);
-      C2a.ERR_clear_error;
+      C2a.Err_Clear_Error;
       C2a.Dh_Compute_Key (Z, N, This.Context);
-      if C2a.ERR_get_error = -1 then
+      if C2a.Err_Get_Error = -1 then
          raise Error;
       end if;
       C2a.Bn_Free (N);
@@ -139,7 +138,8 @@ package body Metax.Dh is
    end Set_Y;
    function Y (This : in Dh) return Byte_Array is
       Y : Byte_Array (
-         1 .. Integer (C2a.Bn_Num_Bits (This.Context.Pub_Key) + 7) / 8);
+         1 ..
+         Integer (C2a.Bn_Num_Bits (This.Context.Pub_Key) + 7) / 8);
    begin
       C2a.Bn_Bn2bin (This.Context.Pub_Key, Y);
       return Y;
